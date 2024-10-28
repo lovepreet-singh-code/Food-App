@@ -8,7 +8,7 @@ const dotenv = require("dotenv");
 
 //dot en configuration
 dotenv.config({
-    path: './.env'
+    //path: './.env'
 })
 
 //rest object
@@ -18,7 +18,7 @@ const app = express();
 
 //route
 // URL => http://localhost:8080
-//app.use("/api/v1/test", require("../src/routes/testRoutes.j"));
+app.use("/api/v1/test", require("./routes/testRoutes"));
 
 
 //middlewares
