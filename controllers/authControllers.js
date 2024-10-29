@@ -8,7 +8,7 @@ const registerController = async (req, res) => {
         const { username, email, password, phone, address, answer } = req.body;
         
         //validation
-        if (!username || !email || !password || !address || !phone || !answwer ) {
+        if (!username || !email || !password || !address || !phone || !answer ) {
           return res.status(statusCode.INTERNAL_SERVER_ERROR).send({
             success: false,
             message: "Please Provide All Fields",
@@ -99,4 +99,5 @@ const loginController = async (req, res) => {
     });
   }
 };
+
 module.exports = { registerController, loginController };

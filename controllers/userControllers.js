@@ -112,9 +112,65 @@ const updatePasswordController = async (req, res) => {
   }
 };
 
+// RESET PASSWORd
+const resetPasswordController = async (req, res) => {
+  try {
+    const { email, newPassword, answer } = req.body;
+    if (!email || !newPassword || !answer) {
+      return res.status(statusCode.INTERNAL_SERVER_ERROR).send({
+        success: false,
+        message: "Please Privide All Fields",
+      });
+    }
+    const user = await userModel.findOne({ email, answer });
+    if (!user) {
+      return res.status(statusCode.INTERNAL_SERVER_ERROR).send({
+        success: false,
+        message: "User Not Found or invlaid answer",
+      });
+    }
+    //hashing password
+    var salt = bcrypt.genSaltSync(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+    user.password = hashedPassword;
+    await user.save();
+    res.status(statusCode.OK).send({
+      success: true,
+      message: "Password Reset SUccessfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(statusCode.INTERNAL_SERVER_ERROR).send({
+      success: false,
+      message: "eror in PASSWORD RESET API",
+      error,
+    });
+  }
+};
+
+
+// DLEETE PROFILE ACCOUNT
+const deleteProfileController = async (req, res) => {
+  try {
+    await userModel.findByIdAndDelete(req.params.id);
+    return res.status(statusCode.OK).send({
+      success: true,
+      message: "Your account has been deleted",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(statusCode.INTERNAL_SERVER_ERROR).send({
+      success: false,
+      message: "Erorr In Delete Profile API",
+      error,
+    });
+  }
+};
 
 module.exports = {
     getUserController,
     updateUserController,
-    updatePasswordController
+    updatePasswordController,
+    resetPasswordController,
+    deleteProfileController
 };
