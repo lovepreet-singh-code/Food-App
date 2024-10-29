@@ -1,5 +1,5 @@
 const userModel = require("../models/userModel");
-const bcrypt = require("bcryptjs");
+//const bcrypt = require("bcryptjs");
 const statusCode = require('../utils/statusCode');
 
 const registerController = async (req, res) => {
@@ -23,15 +23,15 @@ const registerController = async (req, res) => {
             message: "Email Already Registerd please Login",
           });
         }
-        // //hashing password
-        var salt = bcrypt.genSaltSync(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
+        //  //hashing password
+        // var salt = bcrypt.genSaltSync(10);
+        // const hashedPassword = await bcrypt.hash(password, salt);
 
         //create new user
         const user = await userModel.create({
           username,
           email,
-          password: hashedPassword,
+          password,
           address,
           phone
         });
@@ -49,5 +49,37 @@ const registerController = async (req, res) => {
       }
     };
 
+    // LOGIN
+const loginController = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    //validfatuion
+    if (!email || !password) {
+      return res.status(statusCode.INTERNAL_SERVER_ERROR).send({
+        success: false,
+        message: "Please Provide EMail OR Password",
+      });
+    }
+    //check user
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res.status(statusCode.NOT_FOUND).send({
+        success: false,
+        message: "User Not Found",
+      });
+    }
+    res.status(statusCode.OK).send({
+      success: true,
+      message: "Login Successfully",
     
-module.exports = { registerController };
+     });
+  } catch (error) {
+    console.log(error);
+    res.status(statusCode.INTERNAL_SERVER_ERROR).send({
+      success: false,
+      message: "Error In Login API",
+      error,
+    });
+  }
+};
+module.exports = { registerController, loginController };
