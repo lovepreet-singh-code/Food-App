@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 //schema
 const userSchema = new mongoose.Schema(
   {
-    userName: {
+    username: {
       type: String,
       required: [true, "user name is required"],
     },
@@ -34,8 +34,8 @@ const userSchema = new mongoose.Schema(
       default:
         "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_640.png",
     },
-  },
-  { timestamps: true }
+      },
+   { timestamps: true }
 );
 
 //export

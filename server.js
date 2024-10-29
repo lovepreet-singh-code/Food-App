@@ -18,17 +18,16 @@ dotenv.config({
 //rest object
 const app = express();
 
-
-
-//route
-// URL => http://localhost:8080
-app.use("/api/v1/test", require("./routes/testRoutes"));
-
-
 //middlewares
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
+
+
+
+//route
+app.use("/api/v1/test", require("./routes/testRoutes"));
+app.use("/api/v1/auth", require("./routes/authRoutes")); 
 
 
 app.get("/", (req, res) => {
