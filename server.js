@@ -28,7 +28,7 @@ app.use(morgan("dev"));
 //route
 app.use("/api/v1/test", require("./routes/testRoutes"));
 app.use("/api/v1/auth", require("./routes/authRoutes")); 
-
+app.use("/api/v1/user", require("./routes/userRoutes"));
 
 app.get("/", (req, res) => {
     return res
@@ -44,3 +44,11 @@ const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`.white.bgMagenta);
   })
+
+
+//   "username":"lovepreet singh",
+//   "email":"love@example.com",
+//   "password":"12345",
+//   "address":["gsp","punjab"],
+//   "phone":"7898765645"
+// }
