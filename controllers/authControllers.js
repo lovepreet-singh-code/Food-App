@@ -5,10 +5,10 @@ const statusCode = require('../utils/statusCode');
 
 const registerController = async (req, res) => {
     try {
-        const { username, email, password, phone, address } = req.body;
+        const { username, email, password, phone, address, answer } = req.body;
         
         //validation
-        if (!username || !email || !password || !address || !phone ) {
+        if (!username || !email || !password || !address || !phone || !answwer ) {
           return res.status(statusCode.INTERNAL_SERVER_ERROR).send({
             success: false,
             message: "Please Provide All Fields",
@@ -34,7 +34,8 @@ const registerController = async (req, res) => {
           email,
           password:hashedPassword,
           address,
-          phone
+          phone,
+          answer
         });
         res.status(statusCode.CREATED).send({
           success: true,

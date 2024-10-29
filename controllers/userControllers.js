@@ -1,5 +1,6 @@
 const statusCode = require('../utils/statusCode');
 const userModel = require("../models/userModel");
+const bcrypt = require("bcryptjs");
 
 // GET USER INFGO
 const getUserController = async (req, res) => {
@@ -64,7 +65,56 @@ const updateUserController = async (req, res) => {
 }
 };
 
+// UPDATE USER PASSWORRD
+const updatePasswordController = async (req, res) => {
+  try {
+    //find user
+    const user = await userModel.findById({ _id: req.body.id });
+    //valdiation
+    if (!user) {
+      return res.status(statusCode.NOT_FOUND).send({
+        success: false,
+        message: "Usre Not Found",
+      });
+    }
+    // get data from user
+    const { oldPassword, newPassword } = req.body;
+    if (!oldPassword || !newPassword) {
+      return res.status(statusCode.INTERNAL_SERVER_ERROR).send({
+        success: false,
+        message: "Please Provide Old or New PasswOrd",
+      });
+    }
+    //check user password  | compare password
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!isMatch) {
+      return res.status(statusCode.INTERNAL_SERVER_ERROR).send({
+        success: false,
+        message: "Invalid old password",
+      });
+    }
+    //hashing password
+    var salt = bcrypt.genSaltSync(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+    user.password = hashedPassword;
+    await user.save();
+    res.status(statusCode.OK).send({
+      success: true,
+      message: "Password Updated!",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(statusCode.INTERNAL_SERVER_ERROR).send({
+      success: false,
+      message: "Error In Password Update API",
+      error,
+    });
+  }
+};
+
+
 module.exports = {
     getUserController,
     updateUserController,
+    updatePasswordController
 };
