@@ -7,7 +7,7 @@ const {
    getSingleFoodController,
    getFoodByResturantController,
    updateFoodController,
-//   deleteFoodController,
+   deleteFoodController,
 //   placeOrderController,
 //   orderStatusController,
 } = require("../controllers/foodController");
@@ -31,8 +31,8 @@ router.get("/getByResturant/:id", getFoodByResturantController);
 // UPDATE FOOD
 router.put("/update/:id", authMiddleware, updateFoodController);
 
-// // DELETE FOOD
-// router.delete("/delete/:id", authMiddleware, deleteFoodController);
+// DELETE FOOD
+router.delete("/delete/:id", authMiddleware, deleteFoodController);
 
 // // PLACE ORDER
 // router.post("/placeorder", authMiddleware, placeOrderController);
