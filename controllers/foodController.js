@@ -1,4 +1,4 @@
-const { stat } = require("fs/promises");
+const orderModel = require("../models/orderModel");
 const foodModal = require("../models/foodModel");
 const statusCode = require('../utils/statusCode');
 // CREATE FOOD
@@ -231,6 +231,72 @@ const deleteFoodController = async (req, res) => {
   }
 };
 
+// PLACE ORDER
+const placeOrderController = async (req, res) => {
+  try {
+    const { cart } = req.body;
+    if (!cart) {
+      return res.status(statusCode.INTERNAL_SERVER_ERROR).send({
+        success: false,
+        message: "please food cart or payemnt method",
+      });
+    }
+    let total = 0;
+    //cal
+    cart.map((i) => {
+      total += i.price;
+    });
+
+    const newOrder = new orderModel({
+      foods: cart,
+      payment: total,
+      buyer: req.body.id,
+    });
+    await newOrder.save();
+    res.status(statusCode.CREATED).send({
+      success: true,
+      message: "Order Placed successfully",
+      newOrder,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(statusCode.INTERNAL_SERVER_ERROR).send({
+      success: false,
+      message: "Erorr In Place Order API",
+      error,
+    });
+  }
+};
+
+// CHANGE ORDER STATUS
+const orderStatusController = async (req, res) => {
+  try {
+    const orderId = req.params.id;
+    if (!orderId) {
+      return res.status(statusCode.NOT_FOUND).send({
+        success: false,
+        message: "Please Provide valid order id",
+      });
+    }
+    const { status } = req.body;
+    const order = await orderModel.findByIdAndUpdate(
+      orderId,
+      { status },
+      { new: true }
+    );
+    res.status(statusCode.OK).send({
+      success: true,
+      message: "Order Status Updated",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(statusCode.INTERNAL_SERVER_ERROR).send({
+      success: false,
+      message: "Error In Order Status API",
+      error,
+    });
+  }
+};
 
 module.exports = {
     createFoodController,
@@ -239,4 +305,6 @@ module.exports = {
     getFoodByResturantController,
     updateFoodController,
     deleteFoodController,
+    placeOrderController,
+    orderStatusController,
 };
