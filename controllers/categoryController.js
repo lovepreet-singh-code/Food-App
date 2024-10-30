@@ -83,8 +83,40 @@ const updateCatController = async (req, res) => {
     }
   };
   
+  // DLEETE CAT
+const deleteCatController = async (req, res) => {
+    try {
+      const { id } = req.params;
+      if (!id) {
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).send({
+          success: false,
+          message: "Please provide Category ID",
+        });
+      }
+      const category = await categoryModel.findById(id);
+      if (!category) {
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).send({
+          success: false,
+          message: "No Category Found With this id",
+        });
+      }
+      await categoryModel.findByIdAndDelete(id);
+      res.status(statusCode.OK).send({
+        success: true,
+        message: "category Deleted succssfully",
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(statusCode.INTERNAL_SERVER_ERROR).send({
+        success: false,
+        message: "error in Dlete Cat APi",
+        error,
+      });
+    }
+  };
 module.exports = {
     createCatController,
     getAllCatController,
     updateCatController,
+    deleteCatController,
 };

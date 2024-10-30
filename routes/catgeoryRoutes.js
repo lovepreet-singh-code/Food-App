@@ -5,7 +5,7 @@ const {
   createCatController,
    getAllCatController,
    updateCatController,
-//   deleteCatController,
+   deleteCatController,
 } = require("../controllers/categoryController");
 
 const router = express.Router();
@@ -20,7 +20,7 @@ router.get("/getAll", getAllCatController);
 // UPDATE CAT
 router.put("/update/:id", authMiddleware, updateCatController);
 
-// // DLEETE CAT
-// router.delete("/delete/:id", authMiddleware, deleteCatController);
+// DLEETE CAT
+router.delete("/delete/:id", authMiddleware, deleteCatController);
 
 module.exports = router;
