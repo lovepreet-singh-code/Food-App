@@ -4,7 +4,7 @@ const authMiddleware = require("../middlewares/authMiddleware");
 const {
   createFoodController,
    getAllFoodsController,
-//   getSingleFoodController,
+   getSingleFoodController,
 //   getFoodByResturantController,
 //   updateFoodController,
 //   deleteFoodController,
@@ -22,8 +22,8 @@ router.post("/create", authMiddleware, createFoodController);
 //GET ALL FOOD
 router.get("/getAll", getAllFoodsController);
 
-// // GET SINGLE FOOD
-// router.get("/get/:id", getSingleFoodController);
+// GET SINGLE FOOD
+router.get("/get/:id", getSingleFoodController);
 
 // // GET  FOOD by rest
 // router.get("/getByResturant/:id", getFoodByResturantController);
