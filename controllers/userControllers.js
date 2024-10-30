@@ -167,10 +167,13 @@ const deleteProfileController = async (req, res) => {
   }
 };
 
+
+
+
 module.exports = {
     getUserController,
     updateUserController,
     updatePasswordController,
     resetPasswordController,
-    deleteProfileController
+    deleteProfileController,
 };

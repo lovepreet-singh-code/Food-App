@@ -27,4 +27,6 @@ router.post("/resetPassword", authMiddleware, resetPasswordController);
 // delete USER
 router.delete("/deleteUser/:id", authMiddleware, deleteProfileController);
 
+
+
 module.exports = router;
