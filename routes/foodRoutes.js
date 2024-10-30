@@ -2,8 +2,8 @@ const express = require("express");
 
 const authMiddleware = require("../middlewares/authMiddleware");
 const {
-  createFoodController
-//   getAllFoodsController,
+  createFoodController,
+   getAllFoodsController,
 //   getSingleFoodController,
 //   getFoodByResturantController,
 //   updateFoodController,
@@ -19,8 +19,8 @@ const router = express.Router();
 //CREATE FOOD
 router.post("/create", authMiddleware, createFoodController);
 
-// //GET ALL FOOD
-// router.get("/getAll", getAllFoodsController);
+//GET ALL FOOD
+router.get("/getAll", getAllFoodsController);
 
 // // GET SINGLE FOOD
 // router.get("/get/:id", getSingleFoodController);

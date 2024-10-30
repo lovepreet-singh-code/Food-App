@@ -1,3 +1,4 @@
+const { stat } = require("fs/promises");
 const foodModal = require("../models/foodModel");
 const statusCode = require('../utils/statusCode');
 // CREATE FOOD
@@ -52,6 +53,32 @@ const createFoodController = async (req, res) => {
   }
 };
 
+// GET ALLL FOODS
+const getAllFoodsController = async (req, res) => {
+  try {
+    const foods = await foodModal.find({});
+    if (!foods) {
+      return res.status(statusCode.NOT_FOUND).send({
+        success: false,
+        message: "no food items was found",
+      });
+    }
+    res.status(statusCode.OK).send({
+      success: true,
+      totalFoods: foods.length,
+      foods,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(statusCode.INTERNAL_SERVER_ERROR).send({
+      success: false,
+      message: "Erro In Get ALL Foods API",
+      error,
+    });
+  }
+};
+
 module.exports = {
-    createFoodController
+    createFoodController,
+    getAllFoodsController,
 };
