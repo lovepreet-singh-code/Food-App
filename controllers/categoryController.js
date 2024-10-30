@@ -28,7 +28,32 @@ const createCatController = async (req, res) => {
     });
   }
 };
+// GET ALL CAT
+const getAllCatController = async (req, res) => {
+    try {
+      const categories = await categoryModel.find({});
+      if (!categories) {
+        return res.status(404).send({
+          success: false,
+          message: "No Categories found",
+        });
+      }
+      res.status(200).send({
+        success: true,
+        totalCat: categories.length,
+        categories,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({
+        success: false,
+        message: "Erorr in get All Categpry API",
+        error,
+      });
+    }
+  };
 
 module.exports = {
     createCatController,
+    getAllCatController,
 };
