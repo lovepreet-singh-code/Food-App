@@ -5,8 +5,8 @@ const {
   createFoodController,
    getAllFoodsController,
    getSingleFoodController,
-//   getFoodByResturantController,
-//   updateFoodController,
+   getFoodByResturantController,
+   updateFoodController,
 //   deleteFoodController,
 //   placeOrderController,
 //   orderStatusController,
@@ -25,11 +25,11 @@ router.get("/getAll", getAllFoodsController);
 // GET SINGLE FOOD
 router.get("/get/:id", getSingleFoodController);
 
-// // GET  FOOD by rest
-// router.get("/getByResturant/:id", getFoodByResturantController);
+// GET  FOOD by resturant
+router.get("/getByResturant/:id", getFoodByResturantController);
 
-// // UPDATE FOOD
-// router.put("/update/:id", authMiddleware, updateFoodController);
+// UPDATE FOOD
+router.put("/update/:id", authMiddleware, updateFoodController);
 
 // // DELETE FOOD
 // router.delete("/delete/:id", authMiddleware, deleteFoodController);
